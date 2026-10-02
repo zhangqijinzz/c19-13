@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AnalysisPanel } from './features/analysis-preview/AnalysisPanel';
 import { StatusBar } from './features/analysis-preview/StatusBar';
+import { ConflictDialog } from './features/conflict/ConflictDialog';
 import { ElementPalette } from './features/element-library/ElementPalette';
 import { FieldSettingsPanel } from './features/field-setup/FieldSettingsPanel';
 import { FieldCanvas } from './features/layout-editor/FieldCanvas';
@@ -31,6 +32,7 @@ function App() {
       </div>
       <AnalysisPanel analysis={state.analysis} mode={state.mode} elementCount={state.document.elements.length} />
       <StatusBar mode={state.mode} analysis={state.analysis} notice={state.notice} elementCount={state.document.elements.length} lastSavedAt={state.lastSavedAt} onModeChange={vm.setMode.bind(vm)} />
+      {state.conflict && <ConflictDialog conflict={state.conflict} onKeepLocal={vm.resolveConflictWithLocal.bind(vm)} onUseRemote={vm.resolveConflictWithRemote.bind(vm)} />}
     </main>
   </div>;
 }

@@ -1,10 +1,22 @@
 import { createStarterDocument } from './domain';
-import type { DocumentStorageService } from './storageService';
-import type { ExpoElement, LayoutDocument } from './types';
+import type { CompareSaveResult, DocumentStorageService } from './storageService';
+import type { ExpoElement, LayoutConflict, LayoutDocument } from './types';
+
+export interface LoadedLayout {
+  document: LayoutDocument;
+  revision: string | null;
+  updatedAt: number | null;
+}
+
+export interface SaveOutcome {
+  status: 'saved' | 'conflict';
+  revision?: string;
+  conflict?: LayoutConflict;
+}
 
 export interface LayoutRepository {
-  load(): Promise<LayoutDocument>;
-  save(document: LayoutDocument): Promise<void>;
+  load(): Promise<LoadedLayout>;
+  save(document: LayoutDocument, expectedRevision: string | null): Promise<SaveOutcome>;
 }
 
 const isElement = (value: unknown): value is ExpoElement => {
@@ -20,19 +32,39 @@ const isDocument = (value: unknown): value is LayoutDocument => {
   return document.version === 1 && typeof document.title === 'string' && !!field && typeof field.width === 'number' && typeof field.height === 'number' && Array.isArray(document.elements) && document.elements.every(isElement);
 };
 
+const toSaveResult = (document: LayoutDocument, expectedRevision: string | null, result: CompareSaveResult): SaveOutcome => {
+  if (result.status === 'saved') return { status: 'saved', revision: result.revision };
+  if (!isDocument(result.current.document)) throw new Error('存储中的布局无法识别');
+  return {
+    status: 'conflict',
+    conflict: {
+      local: document,
+      remote: result.current.document,
+      expectedRevision,
+      remoteRevision: result.current.revision,
+      remoteUpdatedAt: result.current.updatedAt,
+      detectedAt: Date.now(),
+    },
+  };
+};
+
 export class LocalLayoutRepository implements LayoutRepository {
   constructor(private readonly storage: DocumentStorageService) {}
 
-  async load(): Promise<LayoutDocument> {
+  async load(): Promise<LoadedLayout> {
     try {
       const saved = await this.storage.read();
-      return isDocument(saved) ? saved : createStarterDocument();
+      if (saved && isDocument(saved.document)) {
+        return { document: saved.document, revision: saved.revision, updatedAt: saved.updatedAt || null };
+      }
+      return { document: createStarterDocument(), revision: null, updatedAt: null };
     } catch {
-      return createStarterDocument();
+      return { document: createStarterDocument(), revision: null, updatedAt: null };
     }
   }
 
-  async save(document: LayoutDocument): Promise<void> {
-    await this.storage.write(document);
+  async save(document: LayoutDocument, expectedRevision: string | null): Promise<SaveOutcome> {
+    const result = await this.storage.compareAndSave({ document, revision: '', updatedAt: Date.now() }, expectedRevision);
+    return toSaveResult(document, expectedRevision, result);
   }
 }

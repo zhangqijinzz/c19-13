@@ -31,6 +31,15 @@ export interface LayoutDocument {
   elements: ExpoElement[];
 }
 
+export interface LayoutConflict {
+  local: LayoutDocument;
+  remote: LayoutDocument;
+  expectedRevision: string | null;
+  remoteRevision: string;
+  remoteUpdatedAt: number | null;
+  detectedAt: number;
+}
+
 export interface ElementSpec {
   kind: ElementKind;
   label: string;

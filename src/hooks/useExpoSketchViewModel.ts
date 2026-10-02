@@ -8,6 +8,7 @@ export const useExpoSketchViewModel = () => {
   if (!viewModel.current) viewModel.current = new ExpoSketchViewModel(new LocalLayoutRepository(new BrowserStorageService()));
   const vm = viewModel.current;
   const state = useSyncExternalStore(vm.subscribe.bind(vm), () => vm.state, () => vm.state);
+  useEffect(() => vm.startChangeNotifier(), [vm]);
   useEffect(() => { void vm.initialize(); }, [vm]);
   return { state, vm };
 };
