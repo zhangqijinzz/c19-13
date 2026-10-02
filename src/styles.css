@@ -108,3 +108,28 @@ button { cursor: pointer; }
 .analysis-panel { display: grid; grid-template-columns: 1.15fr 1.4fr 1.8fr; align-items: center; gap: 20px; min-height: 58px; margin-top: 14px; padding: 12px 17px; border: 1px solid #e7ecf1; border-radius: 11px; background: #fff; box-shadow: 0 5px 16px #2b41620a; }.analysis-title { display: flex; align-items: center; gap: 9px; }.analysis-pulse { width: 8px; height: 8px; border-radius: 50%; background: #5cc49b; box-shadow: 0 0 0 4px #def5ea; }.analysis-path .analysis-pulse { background: #ef795f; box-shadow: 0 0 0 4px #fce8e3; }.analysis-title strong, .analysis-title .section-kicker { display: block; }.analysis-title strong { margin-top: 3px; color: #52667a; font: 600 11px 'Space Grotesk'; }.analysis-metrics { display: flex; gap: 14px; color: #a1adb8; font: 9px 'DM Mono'; }.analysis-metrics span { white-space: nowrap; }.analysis-metrics b { margin-right: 3px; color: #5f7487; font-weight: 500; }.analysis-metrics .metric-warning b { color: #db8a48; }.analysis-result { display: grid; gap: 3px; justify-self: end; text-align: right; }.analysis-result strong { color: #5b6e80; font-size: 10px; font-weight: 600; }.analysis-result small { color: #aab4bd; font: 9px 'DM Mono'; }
 .loading-screen { min-height: 100vh; display: grid; place-content: center; justify-items: center; gap: 9px; background: #f6f8fb; color: #738294; }.loading-mark { width: 45px; height: 45px; display: grid; place-items: center; margin-bottom: 7px; border-radius: 14px; background: #ef795f; color: #fff; font-size: 22px; box-shadow: 0 9px 20px #ef795f38; }.loading-screen strong { color: #36495d; font: 600 16px 'Space Grotesk'; }.loading-screen span { color: #a4afb9; font-size: 11px; }
 @media (max-width: 1260px) { .left-rail { width: 250px; flex-basis: 250px; }.main-stage { padding: 0 24px; }.editor-grid { grid-template-columns: minmax(560px, 1fr) 235px; gap: 13px; }.bottom-meta { display: none; } }
+.conflict-banner { display: flex; align-items: center; gap: 13px; margin: 0 0 16px; padding: 12px 16px; border: 1px solid #f0d3a7; border-radius: 11px; background: #fff8ec; box-shadow: 0 5px 16px #c98a3a14; }
+.conflict-banner .conflict-copy { flex: 1; min-width: 0; }
+.conflict-copy strong { display: block; color: #8a5a1d; font: 600 12px 'Space Grotesk'; }
+.conflict-copy p { margin: 3px 0 0; color: #b08a56; font-size: 10px; line-height: 1.5; }
+.conflict-icon { width: 28px; height: 28px; flex: 0 0 28px; display: grid; place-items: center; border-radius: 8px; background: #f6ddb0; color: #b97c22; font-size: 14px; }
+.conflict-icon.lg { width: 38px; height: 38px; flex-basis: 38px; border-radius: 11px; font-size: 18px; }
+.conflict-actions { display: flex; gap: 7px; flex-shrink: 0; }
+.conflict-primary, .conflict-secondary { padding: 8px 13px; border-radius: 8px; font-size: 10px; white-space: nowrap; }
+.conflict-primary { border: 1px solid #ef795f; background: #ef795f; color: #fff; }
+.conflict-primary:hover { background: #e76a4f; }
+.conflict-secondary { border: 1px solid #e3d3bb; background: #fff; color: #8a6a3d; }
+.conflict-secondary:hover { border-color: #d8b98d; background: #fff9f0; }
+.conflict-backdrop { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 24px; background: #20303f55; backdrop-filter: blur(2px); }
+.conflict-modal { width: min(560px, 100%); padding: 24px; border: 1px solid #e8edf3; border-radius: 16px; background: #fff; box-shadow: 0 24px 60px #20303f33; }
+.conflict-modal-head { display: flex; gap: 13px; }
+.conflict-modal-head h2 { margin: 2px 0 6px; color: #2a3c4f; font: 600 17px 'Space Grotesk'; letter-spacing: -.3px; }
+.conflict-modal-head p { margin: 0; color: #8e9bab; font-size: 11px; line-height: 1.65; }
+.conflict-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; margin: 18px 0; }
+.conflict-card { display: grid; gap: 5px; padding: 14px; border: 1px solid #e7ecf1; border-radius: 11px; background: #f8fafc; }
+.conflict-card.current { border-color: #f3c3b8; background: #fff7f5; }
+.conflict-card-tag { color: #a2adb9; font: 500 8px 'DM Mono'; letter-spacing: 1.2px; }
+.conflict-card.current .conflict-card-tag { color: #d9836f; }
+.conflict-card strong { color: #44596d; font: 600 12px 'Space Grotesk'; }
+.conflict-card small { color: #9aa8b5; font: 9px 'DM Mono'; }
+.conflict-modal-actions { display: flex; justify-content: flex-end; gap: 9px; }

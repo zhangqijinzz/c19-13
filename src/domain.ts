@@ -123,4 +123,6 @@ export const analyzeLayout = (document: LayoutDocument): Analysis => ({
 
 export const findElement = (document: LayoutDocument, id: string | null) => document.elements.find((element) => element.id === id) ?? null;
 
+export const isSameDocument = (first: LayoutDocument, second: LayoutDocument): boolean => JSON.stringify(first) === JSON.stringify(second);
+
 export const formatArea = (field: FieldSize) => `${field.width} × ${field.height} m`;

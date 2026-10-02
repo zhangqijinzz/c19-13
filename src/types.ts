@@ -76,3 +76,22 @@ export interface Notice {
   tone: 'info' | 'success' | 'warning' | 'error';
   message: string;
 }
+
+export interface RemoteVersion {
+  document: LayoutDocument;
+  revision: string;
+  updatedAt: number | null;
+}
+
+export interface SaveConflict {
+  kind: 'save-conflict';
+  remote: RemoteVersion;
+  localDocument: LayoutDocument;
+}
+
+export interface RemoteUpdateNotice {
+  kind: 'remote-update';
+  remote: RemoteVersion;
+}
+
+export type ConflictState = SaveConflict | RemoteUpdateNotice | null;

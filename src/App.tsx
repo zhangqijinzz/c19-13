@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AnalysisPanel } from './features/analysis-preview/AnalysisPanel';
 import { StatusBar } from './features/analysis-preview/StatusBar';
+import { ConflictOverlay } from './features/conflict/ConflictOverlay';
 import { ElementPalette } from './features/element-library/ElementPalette';
 import { FieldSettingsPanel } from './features/field-setup/FieldSettingsPanel';
 import { FieldCanvas } from './features/layout-editor/FieldCanvas';
@@ -24,6 +25,7 @@ function App() {
     </aside>
     <main className="main-stage">
       <header className="topbar"><div className="breadcrumb"><span>我的项目</span><b>/</b><strong>{state.document.title}</strong></div><div className="top-actions"><span className="autosave-label"><i /> 自动保存已开启</span><button type="button" className="share-button">导出布局 <span>↗</span></button><button type="button" className="avatar-button">Z</button></div></header>
+      <ConflictOverlay conflict={state.conflict} onAdoptRemote={vm.adoptRemoteVersion.bind(vm)} onKeepLocal={vm.forceOverwriteRemote.bind(vm)} onDismiss={vm.dismissRemoteUpdate.bind(vm)} />
       <div className="workspace-heading"><div><span className="section-kicker">LAYOUT EDITOR / A-01</span><h1>场地布局编辑器</h1><p>用拖放方式规划区域，保持主要通道畅通。</p></div><div className="heading-stats"><div><strong>{state.document.elements.length}</strong><span>元素</span></div><div><strong>{state.document.field.width}×{state.document.field.height}</strong><span>场地尺寸</span></div></div></div>
       <div className="editor-grid">
         <section className="canvas-panel"><div className="canvas-toolbar"><div className="toolbar-title"><span className="tool-grid">▦</span><div><strong>展厅平面图</strong><small>比例 1 : 100 · 单位：米</small></div></div><div className="toolbar-actions"><span className="zoom-label">⌕ 100%</span><button type="button" aria-label="更多布局选项">•••</button></div></div><FieldCanvas field={state.document.field} elements={state.renderElements} selectedId={state.selectedId} mode={state.mode} overlaps={state.analysis.overlaps} bounds={state.analysis.bounds} channels={state.analysis.channels} path={state.analysis.path} onSelect={vm.selectElement.bind(vm)} onMove={vm.moveElement.bind(vm)} /></section>
